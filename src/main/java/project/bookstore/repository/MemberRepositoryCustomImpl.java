@@ -3,8 +3,7 @@ package project.bookstore.repository;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.springframework.util.StringUtils;
-import project.bookstore.dto.MemberFindParamDto;
+import project.bookstore.dto.member.MemberFindParamDto;
 import project.bookstore.entity.Member;
 
 import javax.persistence.EntityManager;

@@ -1,4 +1,4 @@
-package project.bookstore.dto;
+package project.bookstore.dto.member;
 
 import lombok.*;
 import project.bookstore.entity.authority.AuthType;

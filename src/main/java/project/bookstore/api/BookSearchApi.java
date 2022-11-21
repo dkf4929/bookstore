@@ -1,24 +1,33 @@
 package project.bookstore.api;
 
 import lombok.extern.slf4j.Slf4j;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Component;
+import project.bookstore.dto.book.BookSearchResultDto;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
 @Component
 public class BookSearchApi {
 
-    public String getBookInfo(String title) {
+    public List<BookSearchResultDto> getBookInfo(String title) {
         String clientId = "IDaPCa1nqmtOq8YWlHhW"; // api_key
         String clientSecret = "hdbOLCAevR"; // api_secret
         String text = null;
+        List<BookSearchResultDto> result = new ArrayList<>();
 
         try {
             text = URLEncoder.encode(title, "UTF-8");
@@ -34,9 +43,25 @@ public class BookSearchApi {
         requestHeaders.put("X-Naver-Client-Secret", clientSecret);
         String responseBody = get(apiURL,requestHeaders);
 
-        log.info("response = {}", responseBody);
+        JSONParser jsonParser = new JSONParser();
+        try {
+            Object obj = jsonParser.parse(responseBody);
+            JSONObject jsonMain = (JSONObject)obj;
+            JSONArray jsonArr = (JSONArray)jsonMain.get("items");
 
-        return responseBody;
+            if (jsonArr.size() > 0){
+                for(int i=0; i<jsonArr.size(); i++){
+                    JSONObject jsonObj = (JSONObject)jsonArr.get(i);
+
+                    BookSearchResultDto dto = new BookSearchResultDto((String) jsonObj.get("title"), (String) jsonObj.get("author"), (String) jsonObj.get("isbn"), 10000);
+                    result.add(dto);
+                }
+            }
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
+        return result;
     }
 
     private static String get(String apiUrl, Map<String, String> requestHeaders){

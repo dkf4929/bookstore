@@ -5,11 +5,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import project.bookstore.dto.MemberFindDto;
-import project.bookstore.dto.MemberFindParamDto;
-import project.bookstore.dto.MemberSaveDto;
-import project.bookstore.dto.MemberUpdateDto;
+import project.bookstore.dto.member.MemberFindDto;
+import project.bookstore.dto.member.MemberFindParamDto;
+import project.bookstore.dto.member.MemberSaveDto;
+import project.bookstore.dto.member.MemberUpdateDto;
 import project.bookstore.entity.Member;
 import project.bookstore.entity.authority.AuthType;
 import project.bookstore.entity.embeddable.Address;
@@ -22,11 +23,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberService {
 
     private final MemberRepository repository;
 
+    @Transactional(readOnly = false)
     public void save(MemberSaveDto dto) {
         Address address = new Address(dto.getCity(), dto.getDetailAddress());
 
@@ -89,6 +92,13 @@ public class MemberService {
         return getMemberFindDto(member);
     }
 
+    @Transactional(readOnly = false)
+    public void delete(Long memberId) {
+        Member member = repository.findById(memberId).get();
+        repository.delete(member);
+    }
+
+    @Transactional(readOnly = false)
     public MemberFindDto update(Long memberId, MemberUpdateDto dto) {
         Member member = repository.findById(memberId).orElseThrow(
                 () -> {
@@ -137,10 +147,5 @@ public class MemberService {
                 .detailAddress(member.getAddress().getDetailAddress())
                 .authType(member.getAuthType())
                 .build();
-    }
-
-    public void delete(Long memberId) {
-        Member member = repository.findById(memberId).get();
-        repository.delete(member);
     }
 }

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import project.bookstore.dto.MemberFindParamDto;
+import project.bookstore.dto.member.MemberFindParamDto;
 import project.bookstore.entity.Member;
 import project.bookstore.entity.embeddable.Address;
 import project.bookstore.entity.embeddable.PrivateInfo;
@@ -28,14 +28,14 @@ class MemberRepositoryTest {
     @DisplayName("회원 저장, 저장된 데이터 검증")
     void save() {
         Address address = new Address("서울", "도봉로-1234");
-        PrivateInfo info = new PrivateInfo().builder()
+        PrivateInfo info = PrivateInfo.builder()
                 .name("memberA")
                 .phoneNo("010-1111-2222")
                 .gender("M")
                 .birthDate(LocalDate.of(1990, 01, 01))
                 .build();
 
-        Member member = new Member().builder()
+        Member member = Member.builder()
                 .info(info)
                 .loginId("ADM1")
                 .password("1234")

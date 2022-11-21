@@ -1,13 +1,17 @@
 package project.bookstore.initdata;
 
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.Proxy;
 import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import project.bookstore.entity.Book;
 import project.bookstore.entity.Member;
 import project.bookstore.entity.authority.AuthType;
 import project.bookstore.entity.embeddable.Address;
 import project.bookstore.entity.embeddable.PrivateInfo;
+import project.bookstore.repository.BookRepository;
 import project.bookstore.repository.MemberRepository;
 
 import javax.annotation.PostConstruct;
@@ -19,7 +23,8 @@ import java.time.LocalDate;
 @Transactional
 public class TestDataInit {
 
-    private final MemberRepository repository;
+    private final MemberRepository memberRepository;
+    private final BookRepository bookRepository;
 
     @PostConstruct
     public void init() {
@@ -47,7 +52,28 @@ public class TestDataInit {
                     .address(address)
                     .build();
 
-            repository.save(member);
+            memberRepository.save(member);
         }
+
+        Book book1 = Book.builder()
+                .title("The Title Market")
+                .author("song")
+                .isbn("9781644396421")
+                .price(10000)
+                .publisher("company")
+                .quantity(100)
+                .build();
+
+        Book book2 = Book.builder()
+                .title("지금 이 순간")
+                .author("기욤 뮈소")
+                .isbn("9788984372757")
+                .price(10000)
+                .publisher("none")
+                .quantity(100)
+                .build();
+
+        bookRepository.save(book1);
+        bookRepository.save(book2);
     }
 }

@@ -6,13 +6,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import project.bookstore.dto.MemberFindDto;
-import project.bookstore.dto.MemberFindParamDto;
-import project.bookstore.dto.MemberSaveDto;
-import project.bookstore.dto.MemberUpdateDto;
+import project.bookstore.dto.member.MemberFindDto;
+import project.bookstore.dto.member.MemberFindParamDto;
+import project.bookstore.dto.member.MemberSaveDto;
+import project.bookstore.dto.member.MemberUpdateDto;
 import project.bookstore.service.MemberService;
-
-import java.util.List;
 
 @RestController
 @Slf4j

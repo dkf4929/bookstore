@@ -2,6 +2,8 @@ package project.bookstore.entity;
 
 import lombok.*;
 import project.bookstore.entity.authority.AuthType;
+import project.bookstore.entity.base.BaseEntity;
+import project.bookstore.entity.base.SubEntity;
 import project.bookstore.entity.embeddable.Address;
 import project.bookstore.entity.embeddable.PrivateInfo;
 
@@ -15,14 +17,17 @@ import javax.persistence.*;
 )
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Member {
+public class Member extends SubEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MEMBER_GENERATOR")
     @Column(name = "member_id")
     private Long id;
 
+    @Column(unique = true)
     private String loginId;
+
     private String password;
+
     @Enumerated(EnumType.STRING)
     private AuthType authType;
 

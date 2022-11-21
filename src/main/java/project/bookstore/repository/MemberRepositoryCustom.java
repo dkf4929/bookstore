@@ -1,6 +1,6 @@
 package project.bookstore.repository;
 
-import project.bookstore.dto.MemberFindParamDto;
+import project.bookstore.dto.member.MemberFindParamDto;
 import project.bookstore.entity.Member;
 
 import java.util.List;
