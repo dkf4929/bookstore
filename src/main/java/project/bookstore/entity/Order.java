@@ -36,6 +36,7 @@ public class Order {
         return Order.builder()
                 .member(member)
                 .orderDate(orderDate)
+                .books(new ArrayList<>()) // builder pattern -> nullpointerexception
                 .build();
     }
 

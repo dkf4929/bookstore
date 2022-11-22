@@ -24,20 +24,30 @@ public class OrderService {
     private final BookRepository bookRepository;
     private final OrderBookRepository orderBookRepository;
 
-    public void save(Long memberId, Long bookId) {
+    public void save(Long memberId, List<Long> bookIds) {
         Member findMember = memberRepository.findById(memberId).orElseThrow();
-        Book book = bookRepository.findById(bookId).orElseThrow();
+        List<Book> books = bookRepository.findByBookIds(bookIds);
         Order order = Order.generateOrder(findMember, LocalDateTime.now());
 
-        OrderBook orderBook = OrderBook.builder()
-                .book(book)
-                .order(order)
-                .build();
+        add(books, order);
+    }
 
-        order.addOrderBook(orderBook);
-        book.addOrderBook(orderBook);
+    private void add(List<Book> books, Order order) {
+        for (Book book : books) {
+            boolean isNotSaved = true;
+            OrderBook orderBook = OrderBook.builder()
+                    .book(book)
+                    .order(order)
+                    .build();
 
-        orderRepository.save(order);
-        orderBookRepository.save(orderBook);
+            if (isNotSaved) {
+                orderRepository.save(order);
+                isNotSaved = false;
+            }
+            orderBookRepository.save(orderBook);
+
+            order.addOrderBook(orderBook);
+            book.addOrderBook(orderBook);
+        }
     }
 }
