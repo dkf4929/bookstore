@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("{memberId}")
+@RequestMapping("/{memberId}")
 public class CartController {
     private final CartService cartService;
 

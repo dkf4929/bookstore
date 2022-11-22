@@ -146,6 +146,7 @@ public class MemberService {
                 .city(member.getAddress().getCity())
                 .detailAddress(member.getAddress().getDetailAddress())
                 .authType(member.getAuthType())
+                .orders(member.getOrders())
                 .build();
     }
 }

@@ -51,8 +51,12 @@ public class CartService {
     public List<CartFindDto> update(Long memberId, Long bookId, CartUpdateDto dto) {
         Cart findCart = cartRepository.findByMemberIdAndBookId(memberId, bookId);
 
-        findCart.updateAmount(dto.getAmount());
-        cartRepository.save(findCart);
+        if (dto.getAmount() == 0) { //수량이 0일 시 삭제
+            cartRepository.delete(findCart);
+        } else {
+            findCart.updateAmount(dto.getAmount());
+            cartRepository.save(findCart);
+        }
         return findMyCart(memberId);
     }
 }

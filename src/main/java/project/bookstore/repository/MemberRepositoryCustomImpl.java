@@ -5,6 +5,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import project.bookstore.dto.member.MemberFindParamDto;
 import project.bookstore.entity.Member;
+import project.bookstore.repository.MemberRepositoryCustom;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;

@@ -6,6 +6,8 @@ import project.bookstore.entity.base.SubEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -32,13 +34,14 @@ public class Book extends SubEntity {
     @NotNull
     @Column(unique = true)
     private String isbn;
-
     private int quantity;
 
     @NotNull
     private int price;
-
     private String publisher;
+
+    @OneToMany(mappedBy = "order", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<OrderBook> orders = new ArrayList<>();
 
     public void updateAuthor(String author) {
         this.author = author;
@@ -62,5 +65,11 @@ public class Book extends SubEntity {
 
     public void updatePublisher(String publisher) {
         this.publisher = publisher;
+    }
+
+    public void addOrderBook(OrderBook... orderBooks) {
+        for (OrderBook orderBook : orderBooks) {
+            orders.add(orderBook);
+        }
     }
 }

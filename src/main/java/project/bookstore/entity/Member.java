@@ -2,12 +2,13 @@ package project.bookstore.entity;
 
 import lombok.*;
 import project.bookstore.entity.authority.AuthType;
-import project.bookstore.entity.base.BaseEntity;
 import project.bookstore.entity.base.SubEntity;
 import project.bookstore.entity.embeddable.Address;
 import project.bookstore.entity.embeddable.PrivateInfo;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @SequenceGenerator(
@@ -36,6 +37,9 @@ public class Member extends SubEntity {
 
     @Embedded
     private PrivateInfo info;
+
+    @OneToMany(mappedBy = "member")
+    private List<Order> orders = new ArrayList<>();
 
     public void updateAuthType(AuthType authType) {
         this.authType = authType;

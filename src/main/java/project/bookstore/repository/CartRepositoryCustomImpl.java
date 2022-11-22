@@ -3,12 +3,10 @@ package project.bookstore.repository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import project.bookstore.entity.Cart;
 import project.bookstore.entity.QBook;
-import project.bookstore.entity.QCart;
-import project.bookstore.entity.QMember;
+import project.bookstore.repository.CartRepositoryCustom;
 
 import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.Optional;
 
 import static project.bookstore.entity.QCart.*;
 import static project.bookstore.entity.QMember.member;
