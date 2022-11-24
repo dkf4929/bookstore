@@ -24,7 +24,7 @@ public class BookService {
     private final BookSearchApi api;
 
     @Transactional(readOnly = false)
-    public void save(BookSaveDto dto) {
+    public Book save(BookSaveDto dto) {
         Book book = Book.builder()
                 .quantity(dto.getQuantity())
                 .isbn(dto.getIsbn())
@@ -34,7 +34,7 @@ public class BookService {
                 .title(dto.getTitle())
                 .build();
 
-        bookRepository.save(book);
+        return bookRepository.save(book);
     }
 
     public List<BookSearchResultDto> search(String title) {

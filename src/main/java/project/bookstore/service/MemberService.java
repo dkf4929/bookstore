@@ -12,7 +12,7 @@ import project.bookstore.dto.member.MemberFindParamDto;
 import project.bookstore.dto.member.MemberSaveDto;
 import project.bookstore.dto.member.MemberUpdateDto;
 import project.bookstore.entity.Member;
-import project.bookstore.entity.authority.AuthType;
+import project.bookstore.entity.enumclass.AuthType;
 import project.bookstore.entity.embeddable.Address;
 import project.bookstore.entity.embeddable.PrivateInfo;
 import project.bookstore.repository.MemberRepository;

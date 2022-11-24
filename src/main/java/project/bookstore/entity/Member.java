@@ -1,7 +1,7 @@
 package project.bookstore.entity;
 
 import lombok.*;
-import project.bookstore.entity.authority.AuthType;
+import project.bookstore.entity.enumclass.AuthType;
 import project.bookstore.entity.base.SubEntity;
 import project.bookstore.entity.embeddable.Address;
 import project.bookstore.entity.embeddable.PrivateInfo;

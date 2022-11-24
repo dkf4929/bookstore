@@ -1,9 +1,7 @@
 package project.bookstore.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+import project.bookstore.entity.base.SubEntity;
 
 import javax.persistence.*;
 
@@ -12,7 +10,8 @@ import javax.persistence.*;
 @AllArgsConstructor
 @ToString
 @Builder
-public class OrderBook {
+@Getter
+public class OrderBook extends SubEntity {
     @Id
     @GeneratedValue
     private Long id;
@@ -25,4 +24,9 @@ public class OrderBook {
     @JoinColumn(name = "book_id")
     private Book book;
 
+    private int quantity;
+
+    public void updateQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 }

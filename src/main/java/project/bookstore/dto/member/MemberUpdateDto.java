@@ -1,7 +1,7 @@
 package project.bookstore.dto.member;
 
 import lombok.*;
-import project.bookstore.entity.authority.AuthType;
+import project.bookstore.entity.enumclass.AuthType;
 
 @NoArgsConstructor
 @AllArgsConstructor

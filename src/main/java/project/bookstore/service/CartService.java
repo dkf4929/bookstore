@@ -34,14 +34,14 @@ public class CartService {
                 .collect(Collectors.toList());
     }
 
-    public void save(Long memberId, Long bookId, CartSaveDto dto) {
+    public Cart save(Long memberId, Long bookId, CartSaveDto dto) {
         Member findMember = memberRepository.findById(memberId).orElseThrow(() -> {
             throw new NoSuchMemberException("가입된 회원이 아닙니다.");
         });
 
         Book findBook = bookRepository.findById(bookId).get();
 
-        cartRepository.save(Cart.builder()
+        return cartRepository.save(Cart.builder()
                 .member(findMember)
                 .amount(dto.getAmount())
                 .book(findBook)

@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import project.bookstore.dto.cart.CartFindDto;
 import project.bookstore.dto.cart.CartSaveDto;
 import project.bookstore.dto.cart.CartUpdateDto;
+import project.bookstore.entity.Cart;
 import project.bookstore.service.CartService;
 
 import java.util.List;

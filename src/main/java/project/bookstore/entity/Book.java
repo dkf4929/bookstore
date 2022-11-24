@@ -72,4 +72,12 @@ public class Book extends SubEntity {
             orders.add(orderBook);
         }
     }
+
+    public void minusQuantity(int amount) {
+        this.quantity = this.quantity - amount;
+    }
+
+    public void addQuantity(int amount) {
+        this.quantity = this.quantity + amount;
+    }
 }

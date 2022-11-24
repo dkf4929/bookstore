@@ -30,7 +30,11 @@ public class SubEntity extends BaseEntity {
         HttpServletRequest request = getRequest();
 
         if (request != null) {
-            createdMemberId = Long.valueOf(request.getParameter("memberId"));
+            if (request.getParameter("memberId") != null) {
+                createdMemberId = Long.valueOf(request.getParameter("memberId"));
+            } else {
+                createdMemberId = 1L;
+            }
         }
     }
 
@@ -39,7 +43,11 @@ public class SubEntity extends BaseEntity {
         HttpServletRequest request = getRequest();
 
         if (request != null) {
-            modifiedMemberId = Long.valueOf(request.getParameter("memberId"));
+            if (request.getParameter("memberId") != null) {
+                modifiedMemberId = Long.valueOf(request.getParameter("memberId"));
+            } else {
+                modifiedMemberId = 1L;
+            }
         }
     }
 

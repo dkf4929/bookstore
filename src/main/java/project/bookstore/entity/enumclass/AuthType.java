@@ -1,4 +1,4 @@
-package project.bookstore.entity.authority;
+package project.bookstore.entity.enumclass;
 
 public enum AuthType {
     ADMIN,

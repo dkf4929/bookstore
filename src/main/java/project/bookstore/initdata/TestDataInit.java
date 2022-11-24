@@ -1,21 +1,23 @@
 package project.bookstore.initdata;
 
 import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.Proxy;
 import org.springframework.context.annotation.Profile;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import project.bookstore.dto.order.OrderSaveParamDto;
 import project.bookstore.entity.Book;
 import project.bookstore.entity.Member;
-import project.bookstore.entity.authority.AuthType;
+import project.bookstore.entity.enumclass.AuthType;
 import project.bookstore.entity.embeddable.Address;
 import project.bookstore.entity.embeddable.PrivateInfo;
 import project.bookstore.repository.BookRepository;
 import project.bookstore.repository.MemberRepository;
+import project.bookstore.service.OrderService;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Profile(value = "local")
 @Component
@@ -25,6 +27,7 @@ public class TestDataInit {
 
     private final MemberRepository memberRepository;
     private final BookRepository bookRepository;
+    private final OrderService orderService;
 
     @PostConstruct
     public void init() {
@@ -75,5 +78,12 @@ public class TestDataInit {
 
         bookRepository.save(book1);
         bookRepository.save(book2);
+
+        List<OrderSaveParamDto> dto = new ArrayList<>();
+
+        dto.add(new OrderSaveParamDto(1L, 5));
+        dto.add(new OrderSaveParamDto(2L, 5));
+
+        orderService.save(1L, dto);
     }
 }

@@ -3,13 +3,11 @@ package project.bookstore.interceptor;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.HandlerInterceptor;
 import project.bookstore.entity.Member;
-import project.bookstore.entity.authority.AuthType;
+import project.bookstore.entity.enumclass.AuthType;
 import project.bookstore.exception.NoAuthorityException;
 import project.bookstore.exception.NoSuchMemberException;
-import project.bookstore.repository.BookRepository;
 import project.bookstore.repository.MemberRepository;
 
 import javax.servlet.http.HttpServletRequest;

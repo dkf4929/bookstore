@@ -2,7 +2,7 @@ package project.bookstore.dto.member;
 
 import lombok.*;
 import project.bookstore.entity.Order;
-import project.bookstore.entity.authority.AuthType;
+import project.bookstore.entity.enumclass.AuthType;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
