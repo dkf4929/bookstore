@@ -19,10 +19,8 @@ public class MemberSaveDto {
     @Column(length = 50)
     private String password;
 
-    private String city;
-
     @NotEmpty
-    private String detailAddress;
+    private String address;
 
     @NotEmpty
     @Column(length = 20)

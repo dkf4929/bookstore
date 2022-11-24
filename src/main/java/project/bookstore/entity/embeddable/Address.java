@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Embeddable;
-import javax.persistence.Embedded;
 
 @Embeddable
 @AllArgsConstructor
@@ -15,16 +14,16 @@ import javax.persistence.Embedded;
 @NoArgsConstructor
 public class Address {
 
-    private String city;
-    private String detailAddress;
+    private String address;
+    private String roadAddress;
 
-    public Address updateCity(String city) {
-        this.city = city;
+    public Address updateCity(String address) {
+        this.address = address;
         return this;
     }
 
-    public Address updateDetailAddress(String detailAddress) {
-        this.detailAddress = detailAddress;
+    public Address updateDetailAddress(String roadAddress) {
+        this.roadAddress = roadAddress;
         return this;
     }
 }

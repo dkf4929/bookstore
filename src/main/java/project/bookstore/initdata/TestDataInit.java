@@ -33,6 +33,7 @@ public class TestDataInit {
     public void init() {
         for (int i = 0; i < 10; i++) {
             Address address = new Address("서울", "도봉로-1234");
+
             PrivateInfo info = PrivateInfo.builder()
                     .name("member" + i)
                     .phoneNo("010-1111-2222")

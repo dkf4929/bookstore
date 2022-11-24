@@ -7,7 +7,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Component;
-import project.bookstore.dto.book.BookSearchResultDto;
+import project.bookstore.dto.api.ApiResultDto;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -21,13 +21,13 @@ import java.util.Map;
 
 @Slf4j
 @Component
-public class BookSearchApi {
+public class ApiSearch {
 
-    public List<BookSearchResultDto> getBookInfo(String title) {
+    public List<ApiResultDto> callApi(String url, String title) {
         String clientId = "IDaPCa1nqmtOq8YWlHhW"; // api_key
         String clientSecret = "hdbOLCAevR"; // api_secret
         String text = null;
-        List<BookSearchResultDto> result = new ArrayList<>();
+        List<ApiResultDto> result = new ArrayList<>();
 
         try {
             text = URLEncoder.encode(title, "UTF-8");
@@ -36,7 +36,7 @@ public class BookSearchApi {
         }
 
 
-        String apiURL = "https://openapi.naver.com/v1/search/book?query=" + text;
+        String apiURL = url + text;
 
         Map<String, String> requestHeaders = new HashMap<>();
         requestHeaders.put("X-Naver-Client-Id", clientId);
@@ -53,7 +53,23 @@ public class BookSearchApi {
                 for(int i=0; i<jsonArr.size(); i++){
                     JSONObject jsonObj = (JSONObject)jsonArr.get(i);
 
-                    BookSearchResultDto dto = new BookSearchResultDto((String) jsonObj.get("title"), (String) jsonObj.get("author"), (String) jsonObj.get("isbn"), 10000);
+                    ApiResultDto dto = null;
+
+                    if (url.contains("book")) {
+                        dto = ApiResultDto.builder()
+                            .content1((String) jsonObj.get("title"))
+                            .content2((String) jsonObj.get("author"))
+                            .content3((String) jsonObj.get("isbn"))
+                            .content4(10000)
+                            .build();
+                    } else {
+                        dto = ApiResultDto.builder()
+                                .content1((String) jsonObj.get("roadAddress"))
+                                .content2((String) jsonObj.get("address"))
+                                .content3((String) jsonObj.get("title"))
+                                .build();
+                    }
+
                     result.add(dto);
                 }
             }

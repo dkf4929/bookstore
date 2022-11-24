@@ -4,10 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import project.bookstore.api.BookSearchApi;
+import project.bookstore.api.ApiSearch;
 import project.bookstore.dto.book.BookFindDto;
 import project.bookstore.dto.book.BookSaveDto;
-import project.bookstore.dto.book.BookSearchResultDto;
+import project.bookstore.dto.api.ApiResultDto;
 import project.bookstore.dto.book.BookUpdateDto;
 import project.bookstore.entity.Book;
 import project.bookstore.repository.BookRepository;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class BookService {
 
     private final BookRepository bookRepository;
-    private final BookSearchApi api;
+    private final ApiSearch api;
 
     @Transactional(readOnly = false)
     public Book save(BookSaveDto dto) {
@@ -37,8 +37,8 @@ public class BookService {
         return bookRepository.save(book);
     }
 
-    public List<BookSearchResultDto> search(String title) {
-        return api.getBookInfo(title);
+    public List<ApiResultDto> search(String url, String title) {
+        return api.callApi(url, title);
     }
 
     public BookFindDto findById(Long id) {

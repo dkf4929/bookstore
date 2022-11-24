@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import project.bookstore.dto.book.BookSearchResultDto;
+import project.bookstore.dto.api.ApiResultDto;
 import project.bookstore.entity.Book;
 import project.bookstore.service.BookService;
 
@@ -42,21 +42,21 @@ public class BookRepositoryTest {
     @Test
     @DisplayName("제목 또는 isbn으로 책 검색")
     void search() {
-        List<BookSearchResultDto> search = bookService.search("The Title Market");
+        List<ApiResultDto> search = bookService.search("https://openapi.naver.com/v1/search/book?query=", "The Title Market");
 
-        BookSearchResultDto dto = search.stream().filter((s) -> s.getTitle().equals("The Title Market"))
+        ApiResultDto dto = search.stream().filter((s) -> s.getContent1().equals("The Title Market"))
                 .findFirst()
                 .orElseThrow();
 
-        assertThat(dto.getTitle()).isEqualTo("The Title Market");
+        assertThat(dto.getContent1()).isEqualTo("The Title Market");
 
-        List<BookSearchResultDto> search2 = bookService.search("9781644396421");
+        List<ApiResultDto> search2 = bookService.search("https://openapi.naver.com/v1/search/book?query=", "9781644396421");
 
-        BookSearchResultDto dto2 = search.stream().filter((s) -> s.getIsbn().equals("9781644396421"))
+        ApiResultDto dto2 = search.stream().filter((s) -> s.getContent3().equals("9781644396421"))
                 .findFirst()
                 .orElseThrow();
 
-        assertThat(dto.getIsbn()).isEqualTo("9781644396421");
+        assertThat(dto.getContent3()).isEqualTo("9781644396421");
     }
 
     @Test

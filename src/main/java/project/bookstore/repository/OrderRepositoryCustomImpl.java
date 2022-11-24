@@ -2,7 +2,6 @@ package project.bookstore.repository;
 
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.JPAExpressions;
-import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import project.bookstore.dto.order.OrderFindDto;
 import project.bookstore.dto.order.OrderUpdateDto;
@@ -14,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static project.bookstore.entity.QBook.*;
 import static project.bookstore.entity.QMember.*;
 import static project.bookstore.entity.QOrder.*;
 import static project.bookstore.entity.QOrderBook.*;
@@ -63,7 +61,7 @@ public class OrderRepositoryCustomImpl implements OrderRepositoryCustom {
                 .price(orderBooks.get(i).getBook().getPrice() * orderBooks.get(i).getQuantity())
                 .quantity(orderBooks.get(i).getQuantity())
                 .name(members.get(i).getInfo().getName())
-                .detailAddress(members.get(i).getAddress().getDetailAddress())
+                .detailAddress(members.get(i).getAddress().getRoadAddress())
                 .phoneNo(members.get(i).getInfo().getPhoneNo())
                 .build();
     }

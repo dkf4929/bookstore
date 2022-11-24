@@ -5,7 +5,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import project.bookstore.dto.book.BookFindDto;
 import project.bookstore.dto.book.BookSaveDto;
-import project.bookstore.dto.book.BookSearchResultDto;
+import project.bookstore.dto.api.ApiResultDto;
 import project.bookstore.dto.book.BookUpdateDto;
 import project.bookstore.service.BookService;
 
@@ -20,8 +20,9 @@ public class BookController {
 
     //사용자 기능 - interceptor check x
     @GetMapping("/search")
-    public List<BookSearchResultDto> searchByName(@RequestBody String title) {
-        return bookService.search(title);
+    public List<ApiResultDto> searchByName(@RequestBody String title) {
+        String url = "https://openapi.naver.com/v1/search/book?query=";
+        return bookService.search(url, title);
     }
 
     @PostMapping("/add")

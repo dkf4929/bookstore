@@ -21,6 +21,7 @@ public class MemberController {
     private final MemberService memberService;
 
     // 회원 저장
+    // 네이버 주소 검색 api 활용.
     @PostMapping("/add")
     public String save(@Validated @RequestBody MemberSaveDto dto) {
         memberService.save(dto);

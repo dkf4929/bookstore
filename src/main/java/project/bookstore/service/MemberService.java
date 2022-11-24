@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import project.bookstore.api.ApiSearch;
+import project.bookstore.dto.api.ApiResultDto;
 import project.bookstore.dto.member.MemberFindDto;
 import project.bookstore.dto.member.MemberFindParamDto;
 import project.bookstore.dto.member.MemberSaveDto;
@@ -28,10 +30,13 @@ import java.util.stream.Collectors;
 public class MemberService {
 
     private final MemberRepository repository;
+    private final ApiSearch apiSearch;
 
     @Transactional(readOnly = false)
     public void save(MemberSaveDto dto) {
-        Address address = new Address(dto.getCity(), dto.getDetailAddress());
+        List<ApiResultDto> resultDto = apiSearch.callApi("https://openapi.naver.com/v1/search/local?query=", dto.getAddress());
+
+        Address address = new Address(resultDto.get(0).getContent2(), resultDto.get(0).getContent1());// 첫번째 요소 선택한다고 가정.
 
         PrivateInfo info = PrivateInfo.builder()
                 .birthDate(dto.getBirthDate())
@@ -143,8 +148,8 @@ public class MemberService {
                 .gender(member.getInfo().getGender())
                 .name(member.getInfo().getName())
                 .birthDate(member.getInfo().getBirthDate())
-                .city(member.getAddress().getCity())
-                .detailAddress(member.getAddress().getDetailAddress())
+                .city(member.getAddress().getAddress())
+                .detailAddress(member.getAddress().getRoadAddress())
                 .authType(member.getAuthType())
                 .orders(member.getOrders())
                 .build();
