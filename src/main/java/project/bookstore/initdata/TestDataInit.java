@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import project.bookstore.dto.order.OrderSaveParamDto;
 import project.bookstore.entity.Book;
 import project.bookstore.entity.Member;
-import project.bookstore.entity.enumclass.AuthType;
 import project.bookstore.entity.embeddable.Address;
 import project.bookstore.entity.embeddable.PrivateInfo;
 import project.bookstore.repository.BookRepository;
@@ -41,17 +40,17 @@ public class TestDataInit {
                     .birthDate(LocalDate.of(1990 + i, 01 + i, 01 + i))
                     .build();
 
-            AuthType authType = null;
+            String role = null;
 
             if (i == 9) {
-                authType = AuthType.USER;
+                role = "USER";
             } else {
-                authType = AuthType.ADMIN;
+                role = "ADMIN";
             }
 
             Member member = Member.builder()
                     .info(info)
-                    .loginId(String.valueOf(authType) + i)
+                    .loginId(role + i)
                     .password("1234")
                     .address(address)
                     .build();

@@ -1,5 +1,6 @@
 package project.bookstore.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import project.bookstore.entity.base.SubEntity;
 import project.bookstore.entity.enumclass.OrderStatus;
@@ -32,6 +33,7 @@ public class Order extends SubEntity {
     private LocalDateTime orderDate;
 
     @OneToMany(mappedBy = "book", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JsonIgnore
     private List<OrderBook> books = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)

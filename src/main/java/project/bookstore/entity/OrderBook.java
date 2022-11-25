@@ -8,7 +8,6 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Builder
 @Getter
 public class OrderBook extends SubEntity {

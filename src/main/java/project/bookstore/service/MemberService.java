@@ -14,7 +14,6 @@ import project.bookstore.dto.member.MemberFindParamDto;
 import project.bookstore.dto.member.MemberSaveDto;
 import project.bookstore.dto.member.MemberUpdateDto;
 import project.bookstore.entity.Member;
-import project.bookstore.entity.enumclass.AuthType;
 import project.bookstore.entity.embeddable.Address;
 import project.bookstore.entity.embeddable.PrivateInfo;
 import project.bookstore.repository.MemberRepository;
@@ -35,7 +34,6 @@ public class MemberService {
     @Transactional(readOnly = false)
     public void save(MemberSaveDto dto) {
         List<ApiResultDto> resultDto = apiSearch.callApi("https://openapi.naver.com/v1/search/local?query=", dto.getAddress());
-
         Address address = new Address(resultDto.get(0).getContent2(), resultDto.get(0).getContent1());// 첫번째 요소 선택한다고 가정.
 
         PrivateInfo info = PrivateInfo.builder()
@@ -62,9 +60,9 @@ public class MemberService {
             throw new NoSuchMemberException("등록된 회원이 아닙니다.");
         });
 
-        AuthType authType = member.getAuthType();
+        String role = member.getRole();
 
-        if (authCheck(authType)) {
+        if (authCheck(role)) {
             List<Member> members = repository.findAllByParam(param);
 
             // List<MemberFindDto> convert to List<MemberFindDto>
@@ -81,8 +79,8 @@ public class MemberService {
         }
     }
 
-    private Boolean authCheck(AuthType authType) {
-        if (authType.equals(AuthType.ADMIN) || authType.equals(AuthType.INT_EMPLOYEE)) {
+    private Boolean authCheck(String role) {
+        if (role.equals("ADMIN") || role.equals("EMPLOYEE")) {
             return true;
         }
 
@@ -94,7 +92,7 @@ public class MemberService {
             throw new NoSuchMemberException("등록되지 않은 회원입니다.");
         });
 
-        return getMemberFindDto(member);
+        return convertToMemberFindDto(member);
     }
 
     @Transactional(readOnly = false)
@@ -113,7 +111,7 @@ public class MemberService {
 
         Member savedMember = repository.save(updateMember(dto, member));
 
-        return getMemberFindDto(savedMember);
+        return convertToMemberFindDto(savedMember);
     }
 
     private Member updateMember(MemberUpdateDto dto, Member member) {
@@ -126,15 +124,11 @@ public class MemberService {
         if (StringUtils.hasText(dto.getCity())) {
             member.updateAddress(member.getAddress().updateCity(dto.getCity()));
         }
-        if (dto.getAuthType() != null) {
-            member.updateAuthType(dto.getAuthType());
+        if (dto.getRole() != null) {
+            member.updateRole(dto.getRole());
         }
 
         return member;
-    }
-
-    private MemberFindDto getMemberFindDto(Member member) {
-        return convertToMemberFindDto(member);
     }
 
     private List<MemberFindDto> dtoToList(List<Member> members) {
@@ -150,8 +144,8 @@ public class MemberService {
                 .birthDate(member.getInfo().getBirthDate())
                 .city(member.getAddress().getAddress())
                 .detailAddress(member.getAddress().getRoadAddress())
-                .authType(member.getAuthType())
-                .orders(member.getOrders())
+                .role(member.getRole())
                 .build();
     }
+
 }

@@ -1,7 +1,6 @@
 package project.bookstore.dto.member;
 
 import lombok.*;
-import project.bookstore.entity.enumclass.AuthType;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,5 +12,5 @@ public class MemberUpdateDto {
     private String city;
     private String detailAddress;
     private String phoneNo;
-    private AuthType authType;
+    private String role;
 }
