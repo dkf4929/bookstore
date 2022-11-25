@@ -1,42 +1,54 @@
 package project.bookstore.configutration;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-//import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-//import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-//import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-//import org.springframework.security.core.userdetails.UserDetailsService;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-//import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import project.bookstore.filter.JwtAuthenticationFilter;
+import project.bookstore.tokenmanager.JwtTokenProvider;
 
 @Configuration
-//@EnableWebSecurity
+@RequiredArgsConstructor
+@EnableWebSecurity
 public class WebSecurityConfig {
-//    @Bean
-//    public BCryptPasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
+
+    private final JwtTokenProvider jwtTokenProvider;
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
 //    @Bean
 //    public UserDetailsService userDetailsService() {
 //        return null;
 //    }
 
-//    @Bean
-//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-//        http.authorizeRequests().antMatchers("/**").permitAll()
-//                .anyRequest().authenticated()
-//                .and().formLogin()
-//                .permitAll()
-//                .and()
-//                .logout().permitAll();
+        http.csrf().disable();
+        //http.httpBasic().disable();
+        http.httpBasic().disable()
+                .authorizeRequests()// 요청에 대한 사용권한 체크
+                .antMatchers("/**").authenticated()
+                .antMatchers("/members/**").hasRole("ADMIN")
+                .antMatchers("/order/**", "/books/**").hasRole("USER")
+                .and()
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-//        return http.build();
-//    }
+        return http.build();
+    }
 
-//    @Bean
-//    public WebSecurityCustomizer webSecurityCustomizer() {
-//        return (web) -> web.ignoring().antMatchers("/images/**", "/js/**", "/webjars/**", "/books/search");
-//    }
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().antMatchers("/images/**", "/js/**", "/webjars/**", "/books/search");
+    }
 }

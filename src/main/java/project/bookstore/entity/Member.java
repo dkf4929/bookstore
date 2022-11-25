@@ -1,6 +1,7 @@
 package project.bookstore.entity;
 
 import lombok.*;
+import org.springframework.security.core.userdetails.UserDetails;
 import project.bookstore.entity.enumclass.AuthType;
 import project.bookstore.entity.base.SubEntity;
 import project.bookstore.entity.embeddable.Address;
@@ -18,7 +19,7 @@ import java.util.List;
 )
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Member extends SubEntity {
+public class Member extends SubEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MEMBER_GENERATOR")
     @Column(name = "member_id")
@@ -29,8 +30,8 @@ public class Member extends SubEntity {
 
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    private AuthType authType;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles = new ArrayList<>();
 
     @Embedded
     private Address address;
@@ -41,10 +42,6 @@ public class Member extends SubEntity {
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
 
-    public void updateAuthType(AuthType authType) {
-        this.authType = authType;
-    }
-
     public void updateAddress(Address address) {
         this.address = address;
     }
@@ -54,18 +51,10 @@ public class Member extends SubEntity {
     }
 
     @Builder
-    public Member(String loginId, String password, AuthType authType, Address address, PrivateInfo info) {
+    public Member(String loginId, String password, Address address, PrivateInfo info) {
         this.loginId = loginId;
         this.password = password;
         this.address = address;
         this.info = info;
-
-        if (loginId.contains("ADM")) {
-            this.authType = AuthType.ADMIN;
-        } else if (loginId.contains("INT_EMPLOYEE")) {
-            this.authType = AuthType.INT_EMPLOYEE;
-        } else {
-            this.authType = AuthType.USER;
-        }
     }
 }
