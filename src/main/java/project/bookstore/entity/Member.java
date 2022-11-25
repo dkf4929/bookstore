@@ -61,11 +61,11 @@ public class Member extends SubEntity implements UserDetails {
         this.info = info;
 
         if (loginId.contains("ADMIN")) {
-            this.role = "ADMIN";
+            this.role = "ROLE_ADMIN";
         } else if (loginId.contains("EMPLOYEE")) {
-            this.role = "EMPLOYEE";
+            this.role = "ROLE_EMPLOYEE";
         } else {
-            this.role = "USER";
+            this.role = "ROLE_USER";
         }
     }
 

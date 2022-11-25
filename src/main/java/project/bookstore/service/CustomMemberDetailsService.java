@@ -15,7 +15,7 @@ public class CustomMemberDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return memberRepository.findByLoginId("ADMIN0").orElseThrow(
+        return memberRepository.findByLoginId(username).orElseThrow(
                 () -> {throw new NoSuchMemberException("가입되지 않은 사용자입니다.");});
     }
 }

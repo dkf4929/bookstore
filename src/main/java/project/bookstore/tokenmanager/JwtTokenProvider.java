@@ -22,7 +22,6 @@ import java.util.List;
 public class JwtTokenProvider {
     private String secretKey = "abcedefghijklmnoqprstuvwxyz12345678910";
     private final UserDetailsService userDetailsService;
-    // 토큰 유효시간 10분
     private long tokenValidTime = 30 * 60 * 1000L;
 
     @PostConstruct
@@ -48,6 +47,7 @@ public class JwtTokenProvider {
     // JWT 토큰에서 인증 정보 조회
     public Authentication getAuthentication(String token) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
+        userDetails.getAuthorities();
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
