@@ -10,6 +10,7 @@ import project.bookstore.repository.MemberRepositoryCustom;
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static project.bookstore.entity.QMember.*;
 
@@ -30,6 +31,14 @@ public class MemberRepositoryCustomImpl implements MemberRepositoryCustom {
                 .from(member)
                 .where(nameEq(param.getName()), genderEq(param.getGender()), birthBetween(param.getStartDate(), param.getEndDate()))
                 .fetch();
+    }
+
+    @Override
+    public Optional<Member> findByLoginIdAndPassword(String loginId, String password) {
+        return Optional.ofNullable(queryFactory
+                .selectFrom(member)
+                .where(member.loginId.eq(loginId).and(member.password.eq(password)))
+                .fetchOne());
     }
 
     private BooleanExpression nameEq(String name) {

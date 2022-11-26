@@ -53,6 +53,8 @@ public class Member extends SubEntity implements UserDetails {
 
     public void updateRole(String role) {this.role = role;}
 
+    public void updatePassword(String password) {this.password = password;}
+
     @Builder
     public Member(String loginId, String password, Address address, PrivateInfo info) {
         this.loginId = loginId;
@@ -77,11 +79,6 @@ public class Member extends SubEntity implements UserDetails {
 
         list.add(auth);
         return list;
-    }
-
-    @Override
-    public String getPassword() {
-        return null;
     }
 
     @Override

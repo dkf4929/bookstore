@@ -41,13 +41,14 @@ public class WebSecurityConfig {
 
         http.csrf().disable();
                 http.httpBasic().disable()
-//                .authorizeRequests().antMatchers("/login/**").permitAll()
-                .authorizeRequests()
-                .antMatchers("/members/**").hasRole("ADMIN")
-                .antMatchers("/order/**").hasRole("USER")
+                    .authorizeRequests()
+                        .antMatchers("/members/**").hasRole("ADMIN")
+                        .antMatchers("/order/**").hasRole("USER")
+                        .antMatchers("/login").permitAll()
+                        .anyRequest().authenticated()
                 .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
-//                .formLogin().usernameParameter("loginId");
+                    .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+//                  .formLogin().usernameParameter("loginId");
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         return http.build();
@@ -55,6 +56,6 @@ public class WebSecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/images/**", "/js/**", "/webjars/**", "/login");
+        return (web) -> web.ignoring().antMatchers("/images/**", "/js/**", "/webjars/**");
     }
 }

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -30,6 +31,7 @@ public class MemberService {
 
     private final MemberRepository repository;
     private final ApiSearch apiSearch;
+    private final PasswordEncoder encoder;
 
     @Transactional(readOnly = false)
     public void save(MemberSaveDto dto) {
@@ -46,7 +48,7 @@ public class MemberService {
         Member member = Member.builder()
                 .address(address)
                 .loginId(dto.getLoginId())
-                .password(dto.getPassword())
+                .password(encoder.encode(dto.getPassword()))
                 .info(info)
                 .build();
 
@@ -127,6 +129,9 @@ public class MemberService {
         if (dto.getRole() != null) {
             member.updateRole(dto.getRole());
         }
+        if (dto.getPassword() != null) {
+            member.updatePassword(encoder.encode(dto.getPassword()));
+        }
 
         return member;
     }
@@ -147,5 +152,6 @@ public class MemberService {
                 .role(member.getRole())
                 .build();
     }
+
 
 }

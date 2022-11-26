@@ -21,7 +21,6 @@ public class BookController {
     //사용자 기능 - interceptor check x
     @GetMapping("/search")
     public List<ApiResultDto> searchByName(@RequestBody String title) {
-        System.out.println("title = " + title);
         String url = "https://openapi.naver.com/v1/search/book?query=";
         return bookService.search(url, title);
     }
@@ -36,7 +35,7 @@ public class BookController {
         return bookService.findById(id);
     }
 
-    @GetMapping()
+    @GetMapping
     public List<BookFindDto> findAll() {
         return bookService.findAll();
     }

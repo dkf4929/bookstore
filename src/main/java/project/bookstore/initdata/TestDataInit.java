@@ -2,6 +2,7 @@ package project.bookstore.initdata;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import project.bookstore.dto.order.OrderSaveParamDto;
@@ -27,6 +28,7 @@ public class TestDataInit {
     private final MemberRepository memberRepository;
     private final BookRepository bookRepository;
     private final OrderService orderService;
+    private final PasswordEncoder encoder;
 
     @PostConstruct
     public void init() {
@@ -40,18 +42,18 @@ public class TestDataInit {
                     .birthDate(LocalDate.of(1990 + i, 01 + i, 01 + i))
                     .build();
 
-            String role = null;
+            String loginId = null;
 
             if (i == 9) {
-                role = "USER";
+                loginId = "USER";
             } else {
-                role = "ADMIN";
+                loginId = "ADMIN";
             }
 
             Member member = Member.builder()
                     .info(info)
-                    .loginId(role + i)
-                    .password("1234")
+                    .loginId(loginId + i)
+                    .password(encoder.encode("1234"))
                     .address(address)
                     .build();
 

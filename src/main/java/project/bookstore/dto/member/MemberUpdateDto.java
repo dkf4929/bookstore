@@ -13,4 +13,5 @@ public class MemberUpdateDto {
     private String detailAddress;
     private String phoneNo;
     private String role;
+    private String password;
 }
